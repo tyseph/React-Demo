@@ -1,46 +1,92 @@
-// import logo from './logo.svg';
-import './App.css';
-import Footer from './components/Footer';
-import Header from "./components/Header";
+import React, { useState, useEffect } from 'react';
+import Task from './components/Task'
 
-const App = () => {
-  const num = 10;
-  return (
-    <div>
-      <Header />
-      <h1>FtonEnd Technology</h1>
-      <div>
-        {
-          num
-        }
-      </div>
-      <Footer />
-    </div>
-  )
-}
+// const CreateTask = ({ addTask }) => {
+//   const [value, setValue] = useState("");
 
-// function App() {
+//   const handleSubmit = e => {
+//     e.preventDefault();
+//     if (!value) return;
+//     addTask(value);
+//     setValue("");
+//   }
 //   return (
-//     <div className="App">
-//       {/* <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header> */}
-//       <header>
-//         SAJAL
-//       </header>
-//     </div>
+//     <form onSubmit={handleSubmit}>
+//       <input
+//         type="text"
+//         className="input"
+//         value={value}
+//         placeholder="Add a new task"
+//         onChange={e => setValue(e.target.value)}
+//       />
+//     </form>
 //   );
 // }
+
+const App = () => {
+  const [tasksRemaining, setTasksRemaining] = useState(0);
+  const [tasks, setTasks] = useState([]);
+
+  const [value, setValue] = useState("");
+
+
+  useEffect(() => {
+    setTasksRemaining(tasks.filter(task => !task.completed).length)
+  }, [tasks]);
+
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (!value) return;
+    addTask(value);
+    setValue("");
+  }
+
+
+  const addTask = title => {
+    const newTasks = [...tasks, { title, completed: false }];
+    setTasks(newTasks);
+  };
+
+  const completeTask = index => {
+    const newTasks = [...tasks];
+    newTasks[index].completed = true;
+    setTasks(newTasks);
+  };
+
+  const removeTask = index => {
+    const newTasks = [...tasks];
+    newTasks.splice(index, 1);
+    setTasks(newTasks);
+  };
+
+  return (
+    <div className="container">
+      <div className="header">Pending tasks ({tasksRemaining})</div>
+      <div className="create-task" >
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            className="input"
+            value={value}
+            placeholder="Add a new task"
+            onChange={e => setValue(e.target.value)}
+          />
+        </form>
+      </div>
+      <div className="tasks">
+        {tasks.map((task, index) => (
+          <Task
+            task={task}
+            index={index}
+            completeTask={completeTask}
+            removeTask={removeTask}
+            key={index}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default App;
