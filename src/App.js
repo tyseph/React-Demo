@@ -1,28 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Task from './components/Task'
 
-// const CreateTask = ({ addTask }) => {
-//   const [value, setValue] = useState("");
-
-//   const handleSubmit = e => {
-//     e.preventDefault();
-//     if (!value) return;
-//     addTask(value);
-//     setValue("");
-//   }
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <input
-//         type="text"
-//         className="input"
-//         value={value}
-//         placeholder="Add a new task"
-//         onChange={e => setValue(e.target.value)}
-//       />
-//     </form>
-//   );
-// }
-
 const App = () => {
   const [tasksRemaining, setTasksRemaining] = useState(0);
   const [tasks, setTasks] = useState([]);
@@ -62,6 +40,10 @@ const App = () => {
 
   return (
     <div className="container">
+      <nav style={{ flex: 'inline' }}>
+        <link>Profile</link>
+        <link>Link2 </link>
+      </nav>
       <div className="header">Pending tasks ({tasksRemaining})</div>
       <div className="create-task" >
         <form onSubmit={handleSubmit}>
